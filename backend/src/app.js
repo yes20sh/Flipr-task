@@ -41,17 +41,18 @@ app.use(express.urlencoded({ extended: true }));
 
 /* ---------- Session ---------- */
 app.use(session({
-  name: 'flipr.sid',               // Cookie name (easy to spot in DevTools)
-  secret: process.env.SESSION_SECRET || 'flipr_admin_secret',
+  name: 'flipr.sid',
+  secret: process.env.SESSION_SECRET || 'flipr_secret',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure   : isProd,             // HTTPS only in production (Render)
-    httpOnly : true,
-    sameSite : isProd ? 'none' : 'lax',  // Allow cross‑site in prod
-    maxAge   : 24 * 60 * 60 * 1000       // 1 day
+    secure: true,              // ✅ ONLY over HTTPS
+    httpOnly: true,
+    sameSite: 'none',          // ✅ Needed for cross-origin requests (mobile too)
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
   }
 }));
+
 
 /* ---------- Static assets ---------- */
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
