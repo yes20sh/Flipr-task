@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import axios from '../../api/axios';          // ← your configured Axios base‑URL instance
+import axios from '../../api/axios';  
+import { Link } from 'react-router-dom';
+        // ← your configured Axios base‑URL instance
 
 const NEWSLETTER_URL = '/subscribers';       // the router you showed is mounted at /api/subscribers
 
@@ -42,11 +44,18 @@ export default function NewsletterForm() {
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
         {/* Navigation Links */}
         <ul className="flex flex-wrap gap-6 text-white text-base font-medium drop-shadow">
-          <li><a className="hover:underline hover:text-orange-200 transition" href="#">Home</a></li>
-          <li><a className="hover:underline hover:text-orange-200 transition" href="#">Services</a></li>
+          <li>
+  <Link
+    to="/login"
+    className="hover:underline hover:text-orange-200 transition"
+  >
+    Admin
+  </Link>
+</li>
+          {/* <li><a className="hover:underline hover:text-orange-200 transition" href="#">Services</a></li>
           <li><a className="hover:underline hover:text-orange-200 transition" href="#">Projects</a></li>
           <li><a className="hover:underline hover:text-orange-200 transition" href="#">Testimonials</a></li>
-          <li><a className="hover:underline hover:text-orange-200 transition" href="#">Connect</a></li>
+          <li><a className="hover:underline hover:text-orange-200 transition" href="#">Connect</a></li> */}
         </ul>
 
         {/* Subscribe Form */}
