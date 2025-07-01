@@ -1,11 +1,5 @@
-// server/src/controllers/projectController.js
 import Project from '../models/Project.js';
 
-/* ------------------------------------------------------------------ *
- * GET /projects  – return basic details for all projects
- * ------------------------------------------------------------------ */
-// GET /projects
-// server/src/controllers/projectController.js
 export const getAllProjects = async (_req, res) => {
   try {
     const projects = await Project.find();
@@ -29,10 +23,6 @@ export const getAllProjects = async (_req, res) => {
   }
 };
 
-
-/* ------------------------------------------------------------------ *
- * GET /projects/:id – return a single project with base‑64 image
- * ------------------------------------------------------------------ */
 export const getProjectById = async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -54,14 +44,10 @@ export const getProjectById = async (req, res) => {
   }
 };
 
-/* ------------------------------------------------------------------ *
- * POST /projects – add a new project
- * ------------------------------------------------------------------ */
 export const addProject = async (req, res) => {
   try {
     const { projectName, description, location, category } = req.body;
 
-    // basic validation
     if (!projectName || !description || !location || !category) {
       return res.status(400).json({ message: 'All fields are required' });
     }
@@ -87,9 +73,6 @@ export const addProject = async (req, res) => {
   }
 };
 
-/* ------------------------------------------------------------------ *
- * PUT /projects/:id – update selected project fields
- * ------------------------------------------------------------------ */
 export const updateProject = async (req, res) => {
   try {
     const { projectName, description, location, category } = req.body;
@@ -126,9 +109,6 @@ export const updateProject = async (req, res) => {
   }
 };
 
-/* ------------------------------------------------------------------ *
- * DELETE /projects/:id – remove a project
- * ------------------------------------------------------------------ */
 export const deleteProject = async (req, res) => {
   try {
     const deleted = await Project.findByIdAndDelete(req.params.id);

@@ -1,4 +1,3 @@
-// server/src/controllers/subscriber.controller.js
 import Subscriber from '../models/Subscriber.js';
 
 export const getAllSubscribers = async (_req, res) => {

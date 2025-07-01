@@ -1,4 +1,3 @@
-// server/src/routes/client.routes.js
 import express from 'express';
 import {
   getAllClients,
@@ -10,12 +9,9 @@ import { requireAuth } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-/* ─────────── READ ─────────── */
-router.get('/', getAllClients);        // List clients (no image buffer)
-
-/* ─────────── WRITE (requires auth) ─────────── */
-router.post('/', requireAuth, addClient);       // Create new client
-router.put('/:id', requireAuth, updateClient);  // Update client
-router.delete('/:id', requireAuth, deleteClient); // Delete client
+router.get('/', getAllClients);
+router.post('/', requireAuth, addClient);
+router.put('/:id', requireAuth, updateClient);
+router.delete('/:id', requireAuth, deleteClient);
 
 export default router;

@@ -1,4 +1,3 @@
-// server/src/middleware/auth.middleware.js
 
 export const requireAuth = (req, res, next) => {
   if (req.session && req.session.authenticated) {
