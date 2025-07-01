@@ -23,6 +23,7 @@ const __dirname = path.dirname(__filename);
    ✅ Configuration Constants
 ------------------------------------ */
 const FRONTEND_URL = 'https://flipr-task-yashraj.onrender.com';
+const LOCAL_FRONTEND = 'http://localhost:3000'; // For local development
 const isProd = process.env.NODE_ENV === 'production';
 
 /* -----------------------------------
@@ -31,10 +32,22 @@ const isProd = process.env.NODE_ENV === 'production';
 app.set('trust proxy', 1); // Required for secure cookies over HTTPS (Render)
 
 /* -----------------------------------
-   ✅ CORS Config for Cookie Auth
+   ✅ CORS Config for Cookie Auth (UPDATED)
 ------------------------------------ */
+const allowedOrigins = [FRONTEND_URL];
+if (!isProd) allowedOrigins.push(LOCAL_FRONTEND);
+
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -47,18 +60,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /* -----------------------------------
-   ✅ Session (Cookie) Config
+   ✅ Session (Cookie) Config (UPDATED)
 ------------------------------------ */
 app.use(session({
   name: 'flipr.sid',
   secret: process.env.SESSION_SECRET || 'flipr_secret_default',
   resave: false,
   saveUninitialized: false,
+  proxy: true, // Required when behind reverse proxy
   cookie: {
     secure: true,                         // ✅ Required for HTTPS
     httpOnly: true,                       // Prevents client-side JS access
-    sameSite: 'none',                     // ✅ Required for cross-site cookies (mobile too)
-    maxAge: 24 * 60 * 60 * 1000           // 1 day
+    sameSite: 'none',                     // ✅ Required for cross-site cookies
+    maxAge: 24 * 60 * 60 * 1000,         // 1 day
+    domain: isProd ? '.onrender.com' : undefined // Critical for mobile
   }
 }));
 
