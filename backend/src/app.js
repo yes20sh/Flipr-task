@@ -20,7 +20,7 @@ const __dirname = path.dirname(__filename);
 
 /* ---------- Middlewares ---------- */
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://flipr-task-yashraj.onrender.com',
+  origin: 'https://flipr-task-yashraj.onrender.com', // No trailing slash
   credentials: true,
 }));
 
